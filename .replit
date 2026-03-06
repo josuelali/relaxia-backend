@@ -1,0 +1,40 @@
+modules = ["c-clang14", "angular-node-20", "bash"]
+run = "node index.js"
+
+[nix]
+channel = "stable-23_05"
+
+[unitTest]
+language = "nodejs"
+
+[deployment]
+run = ["sh", "-c", "node index.js"]
+deploymentTarget = "cloudrun"
+ignorePorts = false
+publicDir = "public"
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
+
+[workflows]
+runButton = "Start Server"
+
+[[workflows.workflow]]
+name = "Start Server"
+author = 34613015
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node index.js"
+
+[agent]
+expertMode = true
+
+[objectStorage]
+defaultBucketID = "replit-objstore-49e8bba6-cb59-447c-84d4-fede5cd0f2ba"
+
+[userenv]
+
+[userenv.shared]
