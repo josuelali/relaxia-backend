@@ -5,52 +5,66 @@ from googleapiclient.http import MediaFileUpload
 import os
 
 app = Flask(__name__)
+
+DEVELOPER_KEY = os.environ.get("DEVELOPER_KEY")
+API_SECRET = os.environ.get("API_SECRET")
+
 @app.route("/")
 def home():
     return "Relaxia backend running"
 
-DEVELOPER_KEY = os.environ.get("DEVELOPER_KEY")
-YOUTUBE_UPLOAD_URL = 'https://www.googleapis.com/upload/youtube/v3/videos'
 
 def youtube_upload(filename, title, description, keywords, privacyStatus):
-    youtube = build('youtube', 'v3', developerKey=DEVELOPER_KEY)
-    media_file = MediaFileUpload(filename, mimetype='video/mp4', chunksize=-1, resumable=True)
-
-    request = youtube.videos().insert(
-        part='snippet,status',
-        body={
-            'snippet': {
-                'title': title,
-                'description': description,
-                'tags': keywords,
-            },
-            'status': {
-                'privacyStatus': privacyStatus
-            }
-        },
-        media_body=media_file
-    )
-
     try:
-        response = request.execute()
-        print(f'Video uploaded successfully! Video ID: {response["id"]}')
+        youtube = build('youtube', 'v3', developerKey=DEVELOPER_KEY)
+
+        media_file = MediaFileUpload(filename, mimetype="video/mp4", resumable=True)
+
+        request_upload = youtube.videos().insert(
+            part="snippet,status",
+            body={
+                "snippet": {
+                    "title": title,
+                    "description": description,
+                    "tags": keywords
+                },
+                "status": {
+                    "privacyStatus": privacyStatus
+                }
+            },
+            media_body=media_file
+        )
+
+        response = request_upload.execute()
         return response
+
     except HttpError as e:
-        print(f'An HTTP error occurred: {e}')
+        print(f"An HTTP error occurred: {e}")
         return None
 
-@app.route('/upload', methods=['POST'])
+
+@app.route("/upload", methods=["POST"])
 def upload_video():
-    filename = request.form.get('filename')
-    title = request.form.get('title')
-    description = request.form.get('description')
-    keywords = request.form.get('keywords', '').split(',')
-    privacyStatus = request.form.get('privacyStatus', 'private')
+
+    # Seguridad API
+    client_key = request.headers.get("X-API-KEY")
+
+    if client_key != API_SECRET:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    filename = request.form.get("filename")
+    title = request.form.get("title")
+    description = request.form.get("description")
+    keywords = request.form.get("keywords", "").split(",")
+    privacyStatus = request.form.get("privacyStatus", "private")
 
     result = youtube_upload(filename, title, description, keywords, privacyStatus)
+
     if result:
-        return jsonify({'message': 'Video uploaded successfully!'})
-    return jsonify({'error': 'Upload failed'}), 500
+        return jsonify({"message": "Video uploaded successfully!"})
+
+    return jsonify({"error": "Upload failed"}), 500
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
