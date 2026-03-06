@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="Relax-IA - Tu asistente inteligente para dropshipping. Automatiza tu negocio con IA">
+    <meta name="keywords" content="dropshipping, inteligencia artificial, automatización, ecommerce, marketing">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relax-IA Asistente de Dropshipping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .hero {
+                padding: 20px 0;
+            }
+            
+            .hero h1 {
+                font-size: 24px;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 20px 0;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .action-button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px 0;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card i {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #1a73e8;
+        }
+        .card h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .action-button {
+            background: #1a73e8;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 10px;
+        }
+        .action-button:hover {
+            background: #0d47a1;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>Relax-IA Asistente de Dropshipping</h1>
+            <p>Gestiona tu negocio de dropshipping de forma simple e intuitiva</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="dashboard">
+            <div class="card">
+                <i class="fas fa-store"></i>
+                <h3>Tienda Online</h3>
+                <p>Conecta y gestiona tu tienda en un solo lugar</p>
+                <button class="action-button">Conectar Tienda</button>
+            </div>
+            <div class="card">
+                <i class="fas fa-hashtag"></i>
+                <h3>Redes Sociales</h3>
+                <p>Integra tus redes sociales y automatiza el marketing</p>
+                <button class="action-button">Vincular Redes</button>
+            </div>
+            <div class="card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Análisis de Mercado</h3>
+                <p>Encuentra productos tendencia con IA</p>
+                <button class="action-button">Analizar Mercado</button>
+            </div>
+            <div class="card">
+                <i class="fas fa-boxes"></i>
+                <h3>Proveedores</h3>
+                <p>Gestiona tus proveedores y productos</p>
+                <button class="action-button">Gestionar Inventario</button>
+            </div>
+        </div>
+    </div>
+</body>app.get('/pricing', (req, res) => {
+  res.render('pricing', {
+    apiKey: process.env.ANTHROPIC_API_KEY,
+    stripeKey: process.env.STRIPE_PUBLISHABLE_KEY
+  });
+});
+
+</html>
