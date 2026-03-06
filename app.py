@@ -3,7 +3,6 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 import os
-from moviepy.editor import VideoFileClip
 
 app = Flask(__name__)
 
