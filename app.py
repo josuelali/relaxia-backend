@@ -5,6 +5,9 @@ from googleapiclient.http import MediaFileUpload
 import os
 
 app = Flask(__name__)
+@app.route("/")
+def home():
+    return "Relaxia backend running"
 
 DEVELOPER_KEY = os.environ.get("DEVELOPER_KEY")
 YOUTUBE_UPLOAD_URL = 'https://www.googleapis.com/upload/youtube/v3/videos'
